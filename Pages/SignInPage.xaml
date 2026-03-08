@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ToDoApp.Pages.SignInPage"
+             BackgroundColor="#F4F0FB"
+             NavigationPage.HasNavigationBar="False">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="36,60,36,36" Spacing="0" VerticalOptions="Center">
+
+            <\!-- Logo / App Icon -->
+            <Frame CornerRadius="30"
+                   WidthRequest="110"
+                   HeightRequest="110"
+                   Padding="0"
+                   HasShadow="True"
+                   HorizontalOptions="Center"
+                   BackgroundColor="#7B5EA7"
+                   IsClippedToBounds="True"
+                   Margin="0,0,0,24">
+                <Label Text="&#x2713;"
+                       FontSize="52"
+                       TextColor="White"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"
+                       FontAttributes="Bold" />
+            </Frame>
+
+            <\!-- App name -->
+            <Label Text="TaskFlow"
+                   FontSize="32"
+                   FontAttributes="Bold"
+                   TextColor="#1A1A2E"
+                   HorizontalOptions="Center"
+                   Margin="0,0,0,4" />
+            <Label Text="Stay on top of your day"
+                   FontSize="14"
+                   TextColor="#6B6B8A"
+                   HorizontalOptions="Center"
+                   Margin="0,0,0,40" />
+
+            <\!-- Email Field -->
+            <Label Text="EMAIL ADDRESS"
+                   FontSize="11"
+                   FontAttributes="Bold"
+                   TextColor="#7B5EA7"
+                   CharacterSpacing="1.5"
+                   Margin="0,0,0,6" />
+            <Frame BackgroundColor="White"
+                   CornerRadius="12"
+                   Padding="16,4"
+                   HasShadow="False"
+                   BorderColor="#D8CEEE"
+                   Margin="0,0,0,16">
+                <Entry x:Name="EmailEntry"
+                       Placeholder="you@example.com"
+                       PlaceholderColor="#C0B8D8"
+                       TextColor="#1A1A2E"
+                       BackgroundColor="Transparent"
+                       FontSize="15"
+                       Keyboard="Email" />
+            </Frame>
+
+            <\!-- Password Field -->
+            <Label Text="PASSWORD"
+                   FontSize="11"
+                   FontAttributes="Bold"
+                   TextColor="#7B5EA7"
+                   CharacterSpacing="1.5"
+                   Margin="0,0,0,6" />
+            <Frame BackgroundColor="White"
+                   CornerRadius="12"
+                   Padding="16,4"
+                   HasShadow="False"
+                   BorderColor="#D8CEEE"
+                   Margin="0,0,0,32">
+                <Entry x:Name="PasswordEntry"
+                       Placeholder="Enter password"
+                       PlaceholderColor="#C0B8D8"
+                       TextColor="#1A1A2E"
+                       BackgroundColor="Transparent"
+                       FontSize="15"
+                       IsPassword="True" />
+            </Frame>
+
+            <\!-- Sign In Button -->
+            <Button Text="SIGN IN"
+                    BackgroundColor="#7B5EA7"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    FontSize="15"
+                    CharacterSpacing="1.5"
+                    CornerRadius="12"
+                    HeightRequest="54"
+                    Margin="0,0,0,14"
+                    Clicked="OnSignInClicked" />
+
+            <\!-- Sign Up Button -->
+            <Button Text="CREATE AN ACCOUNT"
+                    BackgroundColor="Transparent"
+                    TextColor="#7B5EA7"
+                    FontAttributes="Bold"
+                    FontSize="14"
+                    CharacterSpacing="1"
+                    CornerRadius="12"
+                    HeightRequest="54"
+                    BorderColor="#7B5EA7"
+                    BorderWidth="1.5"
+                    Clicked="OnGoToSignUpClicked" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

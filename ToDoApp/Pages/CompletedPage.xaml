@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:ToDoApp.ViewModels"
+             xmlns:models="clr-namespace:ToDoApp"
+             x:Class="ToDoApp.Pages.CompletedPage"
+             x:DataType="vm:AppViewModel"
+             x:Name="Page"
+             Title="Completed"
+             BackgroundColor="#F4F0FB">
+
+    <Shell.BackgroundColor>#7B5EA7</Shell.BackgroundColor>
+    <Shell.ForegroundColor>White</Shell.ForegroundColor>
+    <Shell.TitleColor>White</Shell.TitleColor>
+
+    <Grid RowDefinitions="*">
+
+        <!-- Empty State -->
+        <VerticalStackLayout Grid.Row="0"
+                             VerticalOptions="Center"
+                             HorizontalOptions="Center"
+                             Spacing="12"
+                             Padding="32"
+                             IsVisible="{Binding IsCompletedEmpty}">
+            <Label Text="&#x1F3C6;"
+                   FontSize="60"
+                   HorizontalOptions="Center" />
+            <Label Text="Nothing completed yet"
+                   FontSize="20"
+                   FontAttributes="Bold"
+                   TextColor="#7B5EA7"
+                   HorizontalOptions="Center" />
+            <Label Text="Complete tasks from the ToDo tab to see them here."
+                   FontSize="13"
+                   TextColor="#6B6B8A"
+                   HorizontalOptions="Center"
+                   HorizontalTextAlignment="Center" />
+        </VerticalStackLayout>
+
+        <!-- Completed ListView -->
+        <ListView Grid.Row="0"
+                  x:Name="CompletedListView"
+                  ItemsSource="{Binding CompletedItems}"
+                  BackgroundColor="Transparent"
+                  SeparatorVisibility="None"
+                  HasUnevenRows="True"
+                  SelectionMode="None"
+                  Margin="0,8,0,16"
+                  IsVisible="{Binding IsCompletedEmpty, Converter={StaticResource InvertBoolConverter}}">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="models:ToDoClass">
+                    <ViewCell>
+                        <Frame Margin="16,6,16,0"
+                               Padding="0"
+                               CornerRadius="14"
+                               BackgroundColor="White"
+                               HasShadow="False"
+                               BorderColor="#EDE7F6">
+                            <Grid Padding="16,14"
+                                  ColumnDefinitions="*,Auto,Auto"
+                                  ColumnSpacing="8">
+                                <VerticalStackLayout Grid.Column="0"
+                                                     VerticalOptions="Center"
+                                                     Spacing="3">
+                                    <VerticalStackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            x:DataType="{x:Null}"
+                                            Command="{Binding EditCompletedCommand, Source={x:Static vm:AppViewModel.Instance}}"
+                                            CommandParameter="{Binding .}" />
+                                    </VerticalStackLayout.GestureRecognizers>
+                                    <Label Text="{Binding item_name}"
+                                           FontSize="15"
+                                           FontAttributes="Bold"
+                                           TextColor="#9090A8"
+                                           TextDecorations="Strikethrough"
+                                           LineBreakMode="TailTruncation" />
+                                    <Label Text="{Binding item_description}"
+                                           FontSize="12"
+                                           TextColor="#B0B0C8"
+                                           LineBreakMode="TailTruncation"
+                                           MaxLines="2" />
+                                </VerticalStackLayout>
+                                <!-- Undo action -->
+                                <Frame Grid.Column="1"
+                                       x:DataType="{x:Null}"
+                                       BackgroundColor="#F0F0FF"
+                                       CornerRadius="10"
+                                       WidthRequest="34"
+                                       HeightRequest="34"
+                                       Padding="0"
+                                       HasShadow="False"
+                                       BorderColor="Transparent"
+                                       VerticalOptions="Center">
+                                    <Label Text="&#x21A9;"
+                                           TextColor="#7B5EA7"
+                                           FontSize="14"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center" />
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            x:DataType="{x:Null}"
+                                            Command="{Binding UndoCompletedCommand, Source={x:Static vm:AppViewModel.Instance}}"
+                                            CommandParameter="{Binding .}" />
+                                    </Frame.GestureRecognizers>
+                                </Frame>
+                                <!-- Delete action -->
+                                <Frame Grid.Column="2"
+                                       x:DataType="{x:Null}"
+                                       BackgroundColor="#FFF0F0"
+                                       CornerRadius="10"
+                                       WidthRequest="34"
+                                       HeightRequest="34"
+                                       Padding="0"
+                                       HasShadow="False"
+                                       BorderColor="Transparent"
+                                       VerticalOptions="Center">
+                                    <Label Text="&#x1F5D1;"
+                                           TextColor="#E84040"
+                                           FontSize="14"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center" />
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            x:DataType="{x:Null}"
+                                            Command="{Binding DeleteCompletedCommand, Source={x:Static vm:AppViewModel.Instance}}"
+                                            CommandParameter="{Binding .}" />
+                                    </Frame.GestureRecognizers>
+                                </Frame>
+                            </Grid>
+                        </Frame>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+    </Grid>
+</ContentPage>

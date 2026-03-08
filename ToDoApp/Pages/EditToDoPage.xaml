@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ToDoApp.Pages.EditTodoPage"
+             Title="Edit Task"
+             BackgroundColor="#F4F0FB">
+
+    <Shell.BackgroundColor>#7B5EA7</Shell.BackgroundColor>
+    <Shell.ForegroundColor>White</Shell.ForegroundColor>
+    <Shell.TitleColor>White</Shell.TitleColor>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="24,28,24,24" Spacing="0">
+            <Label Text="Edit Task"
+                   FontSize="26"
+                   FontAttributes="Bold"
+                   TextColor="#1A1A2E"
+                   Margin="0,0,0,28" />
+            <Label Text="TASK TITLE"
+                   FontSize="11" FontAttributes="Bold" TextColor="#7B5EA7"
+                   CharacterSpacing="1.5" Margin="0,0,0,8" />
+            <Frame BackgroundColor="White" CornerRadius="12" Padding="16,4"
+                   HasShadow="False" BorderColor="#D8CEEE" Margin="0,0,0,20">
+                <Entry x:Name="TitleEntry" Placeholder="Task title"
+                       PlaceholderColor="#C0B8D8" TextColor="#1A1A2E"
+                       BackgroundColor="Transparent" FontSize="15" />
+            </Frame>
+            <Label Text="DETAILS"
+                   FontSize="11" FontAttributes="Bold" TextColor="#7B5EA7"
+                   CharacterSpacing="1.5" Margin="0,0,0,8" />
+            <Frame BackgroundColor="White" CornerRadius="12" Padding="16,8"
+                   HasShadow="False" BorderColor="#D8CEEE" Margin="0,0,0,40">
+                <Editor x:Name="DetailsEditor" Placeholder="Task details (optional)"
+                        PlaceholderColor="#C0B8D8" TextColor="#1A1A2E"
+                        BackgroundColor="Transparent" FontSize="15"
+                        AutoSize="TextChanges" MinimumHeightRequest="100" />
+            </Frame>
+            <Button Text="UPDATE"
+                    BackgroundColor="#7B5EA7" TextColor="White"
+                    FontAttributes="Bold" FontSize="14" CharacterSpacing="1.5"
+                    CornerRadius="12" HeightRequest="52" Margin="0,0,0,12"
+                    Clicked="OnUpdateClicked" />
+            <Button Text="MARK COMPLETE"
+                    BackgroundColor="#5CB85C" TextColor="White"
+                    FontAttributes="Bold" FontSize="14" CharacterSpacing="1"
+                    CornerRadius="12" HeightRequest="52" Margin="0,0,0,12"
+                    Clicked="OnCompleteClicked" />
+            <Button Text="DELETE"
+                    BackgroundColor="#E84040" TextColor="White"
+                    FontAttributes="Bold" FontSize="14" CharacterSpacing="1.5"
+                    CornerRadius="12" HeightRequest="52"
+                    Clicked="OnDeleteClicked" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?xaml-comp compile="true" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <!-- Purple Palette -->
+    <Color x:Key="Primary">#7B5EA7</Color>
+    <Color x:Key="PrimaryDark">#5A3A8A</Color>
+    <Color x:Key="PrimaryLight">#A484D0</Color>
+    <Color x:Key="PrimaryVeryLight">#EDE7F6</Color>
+    <Color x:Key="PrimaryDarkText">#FFFFFF</Color>
+
+    <Color x:Key="Secondary">#9D7FD4</Color>
+    <Color x:Key="SecondaryDarkText">#FFFFFF</Color>
+    <Color x:Key="Tertiary">#5A3A8A</Color>
+
+    <Color x:Key="AppBackground">#F4F0FB</Color>
+    <Color x:Key="Surface">#FFFFFF</Color>
+
+    <Color x:Key="TextPrimary">#1A1A2E</Color>
+    <Color x:Key="TextSecondary">#6B6B8A</Color>
+    <Color x:Key="TextMuted">#A0A0B8</Color>
+
+    <Color x:Key="Success">#5CB85C</Color>
+    <Color x:Key="Danger">#E84040</Color>
+    <Color x:Key="Warning">#FFA726</Color>
+
+    <Color x:Key="White">#FFFFFF</Color>
+    <Color x:Key="Black">#000000</Color>
+    <Color x:Key="OffWhite">#F8F5FF</Color>
+    <Color x:Key="OffBlack">#1A1A1A</Color>
+
+    <Color x:Key="BorderColor">#D8CEEE</Color>
+    <Color x:Key="InputBackground">#FDFAFF</Color>
+
+    <Color x:Key="TabBarBackground">#FFFFFF</Color>
+    <Color x:Key="TabActive">#7B5EA7</Color>
+    <Color x:Key="TabInactive">#B0A0D0</Color>
+
+    <!-- App-specific keys used in Styles.xaml -->
+    <Color x:Key="AppPrimary">#7B5EA7</Color>
+    <Color x:Key="AppPrimaryVeryLight">#EDE7F6</Color>
+    <Color x:Key="AppSuccess">#5CB85C</Color>
+    <Color x:Key="AppDanger">#E84040</Color>
+    <Color x:Key="AppDarkButton">#1A1A2E</Color>
+    <Color x:Key="AppTextPrimary">#1A1A2E</Color>
+    <Color x:Key="AppPlaceholder">#C0B8D8</Color>
+    <Color x:Key="AppCard">#FFFFFF</Color>
+    <Color x:Key="AppBorder">#D8CEEE</Color>
+
+    <!-- Legacy colors for framework compatibility -->
+    <Color x:Key="Gray100">#E8E8E8</Color>
+    <Color x:Key="Gray200">#D0D0D0</Color>
+    <Color x:Key="Gray300">#B0B0B0</Color>
+    <Color x:Key="Gray400">#909090</Color>
+    <Color x:Key="Gray500">#707070</Color>
+    <Color x:Key="Gray600">#505050</Color>
+    <Color x:Key="Gray900">#1A1A1A</Color>
+    <Color x:Key="Gray950">#0D0D0D</Color>
+    <Color x:Key="Magenta">#7B5EA7</Color>
+    <Color x:Key="MidnightBlue">#5A3A8A</Color>
+
+    <SolidColorBrush x:Key="PrimaryBrush"       Color="{StaticResource Primary}" />
+    <SolidColorBrush x:Key="SecondaryBrush"      Color="{StaticResource Secondary}" />
+    <SolidColorBrush x:Key="TertiaryBrush"       Color="{StaticResource Tertiary}" />
+    <SolidColorBrush x:Key="WhiteBrush"          Color="{StaticResource White}" />
+    <SolidColorBrush x:Key="BlackBrush"          Color="{StaticResource Black}" />
+    <SolidColorBrush x:Key="Gray100Brush"        Color="{StaticResource Gray100}" />
+    <SolidColorBrush x:Key="Gray200Brush"        Color="{StaticResource Gray200}" />
+    <SolidColorBrush x:Key="Gray300Brush"        Color="{StaticResource Gray300}" />
+    <SolidColorBrush x:Key="Gray400Brush"        Color="{StaticResource Gray400}" />
+    <SolidColorBrush x:Key="Gray500Brush"        Color="{StaticResource Gray500}" />
+    <SolidColorBrush x:Key="Gray600Brush"        Color="{StaticResource Gray600}" />
+    <SolidColorBrush x:Key="Gray900Brush"        Color="{StaticResource Gray900}" />
+    <SolidColorBrush x:Key="Gray950Brush"        Color="{StaticResource Gray950}" />
+</ResourceDictionary>
