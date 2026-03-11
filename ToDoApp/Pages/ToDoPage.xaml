@@ -50,12 +50,14 @@
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="models:ToDoClass">
                     <ViewCell>
-                        <Frame Margin="16,6,16,0"
-                               Padding="0"
-                               CornerRadius="14"
-                               BackgroundColor="White"
-                               HasShadow="False"
-                               BorderColor="#EDE7F6">
+                        <Border Margin="16,6,16,0"
+                                Padding="0"
+                                BackgroundColor="White"
+                                Stroke="#EDE7F6"
+                                StrokeThickness="1">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="14" />
+                            </Border.StrokeShape>
                             <Grid Padding="16,14"
                                   ColumnDefinitions="*,Auto,Auto"
                                   ColumnSpacing="8">
@@ -80,54 +82,56 @@
                                            MaxLines="2" />
                                 </VerticalStackLayout>
                                 <!-- Delete action -->
-                                <Frame Grid.Column="1"
-                                       x:DataType="{x:Null}"
-                                       BackgroundColor="#FFF0F0"
-                                       CornerRadius="10"
-                                       WidthRequest="34"
-                                       HeightRequest="34"
-                                       Padding="0"
-                                       HasShadow="False"
-                                       BorderColor="Transparent"
-                                       VerticalOptions="Center">
+                                <Border Grid.Column="1"
+                                        x:DataType="{x:Null}"
+                                        BackgroundColor="#FFF0F0"
+                                        WidthRequest="34"
+                                        HeightRequest="34"
+                                        Padding="0"
+                                        StrokeThickness="0"
+                                        VerticalOptions="Center">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="10" />
+                                    </Border.StrokeShape>
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            x:DataType="{x:Null}"
+                                            Command="{Binding DeleteTodoCommand, Source={x:Static vm:AppViewModel.Instance}}"
+                                            CommandParameter="{Binding .}" />
+                                    </Border.GestureRecognizers>
                                     <Label Text="&#x1F5D1;"
                                            TextColor="#E84040"
                                            FontSize="14"
                                            HorizontalOptions="Center"
                                            VerticalOptions="Center" />
-                                    <Frame.GestureRecognizers>
+                                </Border>
+                                <!-- Complete action -->
+                                <Border Grid.Column="2"
+                                        x:DataType="{x:Null}"
+                                        BackgroundColor="#F0FFF4"
+                                        WidthRequest="34"
+                                        HeightRequest="34"
+                                        Padding="0"
+                                        StrokeThickness="0"
+                                        VerticalOptions="Center">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="10" />
+                                    </Border.StrokeShape>
+                                    <Border.GestureRecognizers>
                                         <TapGestureRecognizer
                                             x:DataType="{x:Null}"
-                                            Command="{Binding DeleteTodoCommand, Source={x:Static vm:AppViewModel.Instance}}"
+                                            Command="{Binding CompleteTodoCommand, Source={x:Static vm:AppViewModel.Instance}}"
                                             CommandParameter="{Binding .}" />
-                                    </Frame.GestureRecognizers>
-                                </Frame>
-                                <!-- Complete action -->
-                                <Frame Grid.Column="2"
-                                       x:DataType="{x:Null}"
-                                       BackgroundColor="#F0FFF4"
-                                       CornerRadius="10"
-                                       WidthRequest="34"
-                                       HeightRequest="34"
-                                       Padding="0"
-                                       HasShadow="False"
-                                       BorderColor="Transparent"
-                                       VerticalOptions="Center">
+                                    </Border.GestureRecognizers>
                                     <Label Text="&#x2713;"
                                            TextColor="#5CB85C"
                                            FontSize="14"
                                            FontAttributes="Bold"
                                            HorizontalOptions="Center"
                                            VerticalOptions="Center" />
-                                    <Frame.GestureRecognizers>
-                                        <TapGestureRecognizer
-                                            x:DataType="{x:Null}"
-                                            Command="{Binding CompleteTodoCommand, Source={x:Static vm:AppViewModel.Instance}}"
-                                            CommandParameter="{Binding .}" />
-                                    </Frame.GestureRecognizers>
-                                </Frame>
+                                </Border>
                             </Grid>
-                        </Frame>
+                        </Border>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>

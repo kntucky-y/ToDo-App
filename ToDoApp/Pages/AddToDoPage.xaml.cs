@@ -15,7 +15,7 @@ public partial class AddTodoPage : ContentPage
         base.OnAppearing();
         TitleEntry.Text = string.Empty;
         DetailsEditor.Text = string.Empty;
-        TitleEntry.Focus();
+        Dispatcher.Dispatch(() => TitleEntry.Focus());
     }
 
     private async void OnAddClicked(object sender, EventArgs e)

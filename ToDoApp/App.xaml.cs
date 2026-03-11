@@ -7,6 +7,9 @@ public partial class App : Application
     public App()
     {
         InitializeComponent();
+        Routing.RegisterRoute("addtodo", typeof(AddTodoPage));
+        Routing.RegisterRoute("edittodo", typeof(EditTodoPage));
+        Routing.RegisterRoute("editcompleted", typeof(EditCompletedPage));
     }
 
     protected override Window CreateWindow(IActivationState? activationState)
