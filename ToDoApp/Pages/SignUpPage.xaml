@@ -43,13 +43,24 @@
                    HorizontalOptions="Center"
                    Margin="0,0,0,32" />
 
-            <!-- Username -->
-            <Label Text="USERNAME"
+            <!-- First Name -->
+            <Label Text="FIRST NAME"
                    FontSize="11" FontAttributes="Bold" TextColor="#7B5EA7"
                    CharacterSpacing="1.5" Margin="0,0,0,6" />
             <Frame BackgroundColor="White" CornerRadius="12" Padding="16,4"
                    HasShadow="False" BorderColor="#D8CEEE" Margin="0,0,0,16">
-                <Entry x:Name="UserNameEntry" Placeholder="Choose a username"
+                <Entry x:Name="FirstNameEntry" Placeholder="Enter first name"
+                       PlaceholderColor="#C0B8D8" TextColor="#1A1A2E"
+                       BackgroundColor="Transparent" FontSize="15" />
+            </Frame>
+
+            <!-- Last Name -->
+            <Label Text="LAST NAME"
+                   FontSize="11" FontAttributes="Bold" TextColor="#7B5EA7"
+                   CharacterSpacing="1.5" Margin="0,0,0,6" />
+            <Frame BackgroundColor="White" CornerRadius="12" Padding="16,4"
+                   HasShadow="False" BorderColor="#D8CEEE" Margin="0,0,0,16">
+                <Entry x:Name="LastNameEntry" Placeholder="Enter last name"
                        PlaceholderColor="#C0B8D8" TextColor="#1A1A2E"
                        BackgroundColor="Transparent" FontSize="15" />
             </Frame>

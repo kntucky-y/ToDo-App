@@ -1,4 +1,3 @@
-using ToDoApp.Models;
 using ToDoApp.Services;
 
 namespace ToDoApp.Pages;
@@ -12,12 +11,13 @@ public partial class SignUpPage : ContentPage
 
     private async void OnSignUpClicked(object sender, EventArgs e)
     {
-        string userName = UserNameEntry.Text?.Trim() ?? string.Empty;
+        string firstName = FirstNameEntry.Text?.Trim() ?? string.Empty;
+        string lastName = LastNameEntry.Text?.Trim() ?? string.Empty;
         string email = EmailEntry.Text?.Trim() ?? string.Empty;
         string password = PasswordEntry.Text ?? string.Empty;
         string confirm = ConfirmEntry.Text ?? string.Empty;
 
-        if (string.IsNullOrWhiteSpace(userName) || string.IsNullOrWhiteSpace(email) ||
+        if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName) || string.IsNullOrWhiteSpace(email) ||
             string.IsNullOrWhiteSpace(password))
         {
             await DisplayAlert("Required", "Please fill in all fields.", "OK");
@@ -35,10 +35,6 @@ public partial class SignUpPage : ContentPage
             await DisplayAlert("Mismatch", "Passwords do not match.", "OK");
             return;
         }
-
-        var parts = userName.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-        string firstName = parts.Length > 0 ? parts[0] : userName;
-        string lastName = parts.Length > 1 ? string.Join(" ", parts.Skip(1)) : "User";
 
         var (ok, message) = await ToDoApiService.SignUpAsync(firstName, lastName, email, password, confirm);
         if (!ok)

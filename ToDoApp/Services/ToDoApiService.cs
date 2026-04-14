@@ -19,8 +19,8 @@ public static class ToDoApiService
         var response = await Http.GetAsync(url);
         var root = await ReadJsonAsync(response);
 
-        int status = root?["status"]?.GetValue<int>() ?? (int)response.StatusCode;
-        string message = root?["message"]?.GetValue<string>() ?? "Unable to sign in.";
+        int status = ReadStatusCode(root, (int)response.StatusCode);
+        string message = ReadMessage(root, "Unable to sign in.");
         if (status != 200)
         {
             return (false, message, null);
@@ -63,8 +63,8 @@ public static class ToDoApiService
 
         var response = await Http.PostAsJsonAsync("signup_action.php", payload);
         var root = await ReadJsonAsync(response);
-        int status = root?["status"]?.GetValue<int>() ?? (int)response.StatusCode;
-        string message = root?["message"]?.GetValue<string>() ?? "Unable to sign up.";
+        int status = ReadStatusCode(root, (int)response.StatusCode);
+        string message = ReadMessage(root, "Unable to sign up.");
         return (status == 200, message);
     }
 
@@ -74,8 +74,8 @@ public static class ToDoApiService
         var response = await Http.GetAsync(url);
         var root = await ReadJsonAsync(response);
 
-        int code = root?["status"]?.GetValue<int>() ?? (int)response.StatusCode;
-        string message = root?["message"]?.GetValue<string>() ?? string.Empty;
+        int code = ReadStatusCode(root, (int)response.StatusCode);
+        string message = ReadMessage(root, string.Empty);
         if (code != 200)
         {
             return (false, string.IsNullOrWhiteSpace(message) ? "Unable to load tasks." : message, new List<ToDoClass>());
@@ -124,8 +124,8 @@ public static class ToDoApiService
 
         var response = await Http.SendAsync(request);
         var root = await ReadJsonAsync(response);
-        int status = root?["status"]?.GetValue<int>() ?? (int)response.StatusCode;
-        string message = root?["message"]?.GetValue<string>() ?? "Unable to add task.";
+        int status = ReadStatusCode(root, (int)response.StatusCode);
+        string message = ReadMessage(root, "Unable to add task.");
         if (status != 200)
         {
             return (false, message, null);
@@ -151,8 +151,8 @@ public static class ToDoApiService
 
         var response = await Http.SendAsync(request);
         var root = await ReadJsonAsync(response);
-        int status = root?["status"]?.GetValue<int>() ?? (int)response.StatusCode;
-        string message = root?["message"]?.GetValue<string>() ?? "Unable to update task.";
+        int status = ReadStatusCode(root, (int)response.StatusCode);
+        string message = ReadMessage(root, "Unable to update task.");
         return (status == 200, message);
     }
 
@@ -171,8 +171,8 @@ public static class ToDoApiService
 
         var response = await Http.SendAsync(request);
         var root = await ReadJsonAsync(response);
-        int code = root?["status"]?.GetValue<int>() ?? (int)response.StatusCode;
-        string message = root?["message"]?.GetValue<string>() ?? "Unable to change task status.";
+        int code = ReadStatusCode(root, (int)response.StatusCode);
+        string message = ReadMessage(root, "Unable to change task status.");
         return (code == 200, message);
     }
 
@@ -181,8 +181,8 @@ public static class ToDoApiService
         string url = $"deleteItem_action.php?item_id={itemId}";
         var response = await Http.DeleteAsync(url);
         var root = await ReadJsonAsync(response);
-        int status = root?["status"]?.GetValue<int>() ?? (int)response.StatusCode;
-        string message = root?["message"]?.GetValue<string>() ?? "Unable to delete task.";
+        int status = ReadStatusCode(root, (int)response.StatusCode);
+        string message = ReadMessage(root, "Unable to delete task.");
 
         if (status == 200)
         {
@@ -192,9 +192,22 @@ public static class ToDoApiService
         // Some PHP backends reject DELETE verbs; fall back to GET shape in the document.
         var fallback = await Http.GetAsync(url);
         var fallbackRoot = await ReadJsonAsync(fallback);
-        int fallbackStatus = fallbackRoot?["status"]?.GetValue<int>() ?? (int)fallback.StatusCode;
-        string fallbackMessage = fallbackRoot?["message"]?.GetValue<string>() ?? message;
+        int fallbackStatus = ReadStatusCode(fallbackRoot, (int)fallback.StatusCode);
+        string fallbackMessage = ReadMessage(fallbackRoot, message);
         return (fallbackStatus == 200, fallbackMessage);
+    }
+
+    private static int ReadStatusCode(JsonObject? root, int fallback)
+    {
+        if (root is null) return fallback;
+        return ReadInt(root, "status", fallback);
+    }
+
+    private static string ReadMessage(JsonObject? root, string fallback)
+    {
+        if (root is null) return fallback;
+        string message = ReadString(root, "message");
+        return string.IsNullOrWhiteSpace(message) ? fallback : message;
     }
 
     private static ToDoClass ParseItem(JsonObject obj)
@@ -209,13 +222,13 @@ public static class ToDoApiService
         };
     }
 
-    private static int ReadInt(JsonObject obj, string key)
+    private static int ReadInt(JsonObject obj, string key, int fallback = 0)
     {
         var node = obj[key];
-        if (node is null) return 0;
+        if (node is null) return fallback;
         if (node is JsonValue intValue && intValue.TryGetValue<int>(out var n)) return n;
         if (node is JsonValue stringValue && stringValue.TryGetValue<string>(out var s) && int.TryParse(s, out var p)) return p;
-        return 0;
+        return fallback;
     }
 
     private static string ReadString(JsonObject obj, string key)
