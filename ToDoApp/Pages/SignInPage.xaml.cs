@@ -1,5 +1,6 @@
 using ToDoApp.Models;
 using ToDoApp.Services;
+using ToDoApp.ViewModels;
 
 namespace ToDoApp.Pages;
 
@@ -21,16 +22,38 @@ public partial class SignInPage : ContentPage
             return;
         }
 
-        var user = AppData.Users.FirstOrDefault(u =>
-            u.Email.Equals(email, StringComparison.OrdinalIgnoreCase) && u.Password == password);
-
-        if (user is null)
+        var (ok, message, user) = await ToDoApiService.SignInAsync(email, password);
+        if (!ok || user is null)
         {
-            await DisplayAlert("Sign In Failed", "Email or password is incorrect.", "OK");
+            await DisplayAlert("Sign In Failed", message, "OK");
             return;
         }
 
         AppData.CurrentUser = user;
+
+        var active = await ToDoApiService.GetItemsAsync("active", user.UserId);
+        var inactive = await ToDoApiService.GetItemsAsync("inactive", user.UserId);
+
+        AppData.PendingItems.Clear();
+        AppData.CompletedItems.Clear();
+
+        if (active.Ok)
+        {
+            foreach (var item in active.Items)
+            {
+                AppData.PendingItems.Add(item);
+            }
+        }
+
+        if (inactive.Ok)
+        {
+            foreach (var item in inactive.Items)
+            {
+                AppData.CompletedItems.Add(item);
+            }
+        }
+
+        AppViewModel.Instance.RefreshComputedFlags();
         Application.Current!.Windows[0].Page = new AppShell();
     }
 

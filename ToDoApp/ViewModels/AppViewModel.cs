@@ -56,6 +56,13 @@ namespace ToDoApp.ViewModels
                     bool ok = await Shell.Current.DisplayAlert("Delete", $"Delete \"{item.item_name}\"?", "Delete", "Cancel");
                     if (ok)
                     {
+                        var (deleted, message) = await ToDoApiService.DeleteItemAsync(item.item_id);
+                        if (!deleted)
+                        {
+                            await Shell.Current.DisplayAlert("Delete Failed", message, "OK");
+                            return;
+                        }
+
                         PendingItems.Remove(item);
                         OnPropertyChanged(nameof(IsPendingEmpty));
                     }
@@ -63,14 +70,25 @@ namespace ToDoApp.ViewModels
                 catch { }
             });
 
-            CompleteTodoCommand = new Command<ToDoClass>(item =>
+            CompleteTodoCommand = new Command<ToDoClass>(async item =>
             {
                 if (item == null) return;
-                item.status = "completed";
-                PendingItems.Remove(item);
-                CompletedItems.Add(item);
-                OnPropertyChanged(nameof(IsPendingEmpty));
-                OnPropertyChanged(nameof(IsCompletedEmpty));
+                try
+                {
+                    var (updated, message) = await ToDoApiService.ChangeStatusAsync(item.item_id, "inactive");
+                    if (!updated)
+                    {
+                        await Shell.Current.DisplayAlert("Status Update Failed", message, "OK");
+                        return;
+                    }
+
+                    item.status = "inactive";
+                    PendingItems.Remove(item);
+                    CompletedItems.Add(item);
+                    OnPropertyChanged(nameof(IsPendingEmpty));
+                    OnPropertyChanged(nameof(IsCompletedEmpty));
+                }
+                catch { }
             });
 
             EditCompletedCommand = new Command<ToDoClass>(async item =>
@@ -92,6 +110,13 @@ namespace ToDoApp.ViewModels
                     bool ok = await Shell.Current.DisplayAlert("Delete", $"Delete \"{item.item_name}\"?", "Delete", "Cancel");
                     if (ok)
                     {
+                        var (deleted, message) = await ToDoApiService.DeleteItemAsync(item.item_id);
+                        if (!deleted)
+                        {
+                            await Shell.Current.DisplayAlert("Delete Failed", message, "OK");
+                            return;
+                        }
+
                         CompletedItems.Remove(item);
                         OnPropertyChanged(nameof(IsCompletedEmpty));
                     }
@@ -99,14 +124,25 @@ namespace ToDoApp.ViewModels
                 catch { }
             });
 
-            UndoCompletedCommand = new Command<ToDoClass>(item =>
+            UndoCompletedCommand = new Command<ToDoClass>(async item =>
             {
                 if (item == null) return;
-                item.status = "pending";
-                CompletedItems.Remove(item);
-                PendingItems.Add(item);
-                OnPropertyChanged(nameof(IsPendingEmpty));
-                OnPropertyChanged(nameof(IsCompletedEmpty));
+                try
+                {
+                    var (updated, message) = await ToDoApiService.ChangeStatusAsync(item.item_id, "active");
+                    if (!updated)
+                    {
+                        await Shell.Current.DisplayAlert("Status Update Failed", message, "OK");
+                        return;
+                    }
+
+                    item.status = "active";
+                    CompletedItems.Remove(item);
+                    PendingItems.Add(item);
+                    OnPropertyChanged(nameof(IsPendingEmpty));
+                    OnPropertyChanged(nameof(IsCompletedEmpty));
+                }
+                catch { }
             });
 
             PendingItems.CollectionChanged += (_, _) => OnPropertyChanged(nameof(IsPendingEmpty));
@@ -114,6 +150,13 @@ namespace ToDoApp.ViewModels
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
+
+        public void RefreshComputedFlags()
+        {
+            OnPropertyChanged(nameof(IsPendingEmpty));
+            OnPropertyChanged(nameof(IsCompletedEmpty));
+        }
+
         protected void OnPropertyChanged([CallerMemberName] string? name = null)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
     }

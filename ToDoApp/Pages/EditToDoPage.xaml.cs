@@ -33,6 +33,16 @@ public partial class EditTodoPage : ContentPage
         var item = NavigationContext.EditingItem;
         if (item != null)
         {
+            var (ok, message) = await ToDoApiService.UpdateItemAsync(
+                item.item_id,
+                title,
+                DetailsEditor.Text?.Trim() ?? string.Empty);
+            if (!ok)
+            {
+                await DisplayAlert("Update Failed", message, "OK");
+                return;
+            }
+
             item.item_name = title;
             item.item_description = DetailsEditor.Text?.Trim() ?? string.Empty;
         }
@@ -45,6 +55,13 @@ public partial class EditTodoPage : ContentPage
         var item = NavigationContext.EditingItem;
         if (item != null)
         {
+            var (ok, message) = await ToDoApiService.ChangeStatusAsync(item.item_id, "inactive");
+            if (!ok)
+            {
+                await DisplayAlert("Status Update Failed", message, "OK");
+                return;
+            }
+
             AppViewModel.Instance.CompleteTodoCommand.Execute(item);
         }
         NavigationContext.EditingItem = null;
@@ -58,7 +75,15 @@ public partial class EditTodoPage : ContentPage
         var item = NavigationContext.EditingItem;
         if (item != null)
         {
+            var (deleted, message) = await ToDoApiService.DeleteItemAsync(item.item_id);
+            if (!deleted)
+            {
+                await DisplayAlert("Delete Failed", message, "OK");
+                return;
+            }
+
             AppData.PendingItems.Remove(item);
+            AppViewModel.Instance.RefreshComputedFlags();
         }
         NavigationContext.EditingItem = null;
         await Shell.Current.GoToAsync("..");

@@ -36,22 +36,18 @@ public partial class SignUpPage : ContentPage
             return;
         }
 
-        if (AppData.Users.Any(u => u.Email.Equals(email, StringComparison.OrdinalIgnoreCase)))
+        var parts = userName.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        string firstName = parts.Length > 0 ? parts[0] : userName;
+        string lastName = parts.Length > 1 ? string.Join(" ", parts.Skip(1)) : "User";
+
+        var (ok, message) = await ToDoApiService.SignUpAsync(firstName, lastName, email, password, confirm);
+        if (!ok)
         {
-            await DisplayAlert("Email Taken", "An account with that email already exists.", "OK");
+            await DisplayAlert("Sign Up Failed", message, "OK");
             return;
         }
 
-        var newUser = new UserModel
-        {
-            UserId = AppData.NextUserId(),
-            UserName = userName,
-            Email = email,
-            Password = password
-        };
-        AppData.Users.Add(newUser);
-
-        await DisplayAlert("Account Created", "Your account is ready. Please sign in.", "OK");
+        await DisplayAlert("Account Created", string.IsNullOrWhiteSpace(message) ? "Your account is ready. Please sign in." : message, "OK");
         await Navigation.PopAsync();
     }
 

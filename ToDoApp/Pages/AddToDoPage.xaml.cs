@@ -28,16 +28,26 @@ public partial class AddTodoPage : ContentPage
             return;
         }
 
-        var item = new ToDoClass
+        int userId = AppData.CurrentUser?.UserId ?? 0;
+        if (userId <= 0)
         {
-            item_id = AppData.NextItemId(),
-            item_name = title,
-            item_description = DetailsEditor.Text?.Trim() ?? string.Empty,
-            status = "pending",
-            user_id = AppData.CurrentUser?.UserId ?? 0
-        };
+            await DisplayAlert("Session Expired", "Please sign in again.", "OK");
+            return;
+        }
+
+        var (ok, message, item) = await ToDoApiService.AddItemAsync(
+            title,
+            DetailsEditor.Text?.Trim() ?? string.Empty,
+            userId);
+
+        if (!ok || item is null)
+        {
+            await DisplayAlert("Add Failed", message, "OK");
+            return;
+        }
 
         AppData.PendingItems.Add(item);
+        AppViewModel.Instance.RefreshComputedFlags();
         await Shell.Current.GoToAsync("..");
     }
 }
