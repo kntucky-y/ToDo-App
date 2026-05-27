@@ -55,13 +55,6 @@ public partial class EditTodoPage : ContentPage
         var item = NavigationContext.EditingItem;
         if (item != null)
         {
-            var (ok, message) = await ToDoApiService.ChangeStatusAsync(item.item_id, "inactive");
-            if (!ok)
-            {
-                await DisplayAlert("Status Update Failed", message, "OK");
-                return;
-            }
-
             AppViewModel.Instance.CompleteTodoCommand.Execute(item);
         }
         NavigationContext.EditingItem = null;

@@ -55,13 +55,6 @@ public partial class EditCompletedPage : ContentPage
         var item = NavigationContext.EditingItem;
         if (item != null)
         {
-            var (ok, message) = await ToDoApiService.ChangeStatusAsync(item.item_id, "active");
-            if (!ok)
-            {
-                await DisplayAlert("Status Update Failed", message, "OK");
-                return;
-            }
-
             AppViewModel.Instance.UndoCompletedCommand.Execute(item);
         }
         NavigationContext.EditingItem = null;
